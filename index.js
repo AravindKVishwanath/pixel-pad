@@ -47,6 +47,13 @@ app.get('/notes/:id', (req, res) => {
       <html>
         <head>
           <title>${note.title}</title>
+          <style>
+            body{
+                display:flex,
+                align-items:center,
+                justify-content:center
+            }
+          </style>
         </head>
         <body>
           <h1>${note.title}</h1>

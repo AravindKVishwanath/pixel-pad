@@ -86,7 +86,7 @@
       });
 
       const result = await response.json();
-      document.getElementById('result').innerHTML = `<p>Note created! <a href="${result.url}">View Note @ ${result.url}</a></p>`;
+      document.getElementById('result').innerHTML = `<p>Note created! View Note @<a href="${result.url}">https://pixel-pad.onrender.com/${result.url}</a></p>`;
     });
 
     window.onload = () => {
