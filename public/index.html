@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Note</title>
+  <style>
+    #canvas {
+      border: 1px solid black;
+    }
+    body{
+        display: flex;
+        align-items:center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    #content{
+        height:150px;
+        width:1800px;
+    }
+  </style>
+</head>
+<body>
+    <div id="welcomeMessage"></div>
+  <form id="noteForm">
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required>
+    <br>
+    <label for="content">Content:</label>
+    <textarea id="content" name="content" required></textarea>
+    <br>
+    <div id="controls">
+        <label for="colorPicker">Select Color: </label>
+        <input type="color" id="colorPicker" value="#000000">
+    </div>
+    <label for="drawing">Drawing:</label>
+    <br>
+    <canvas id="canvas" width="1800px" height="600px"></canvas>
+    <br>
+    <button type="button" onclick="clearCanvas()">Clear Canvas</button>
+    <br>
+    <button type="submit">Create Note</button>
+  </form>
+  <div id="result"></div>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let currentColor = '#000000'; // default color
+    let drawing = false;
+    const colorPicker = document.getElementById('colorPicker');
+        colorPicker.addEventListener('input', () => {
+            currentColor = colorPicker.value;
+        });
+    canvas.addEventListener('mousedown', () => { drawing = true; });
+    canvas.addEventListener('mouseup', () => { drawing = false; ctx.beginPath(); });
+    canvas.addEventListener('mousemove', draw);
+
+    function draw(event) {
+      if (!drawing) return;
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = currentColor;
+      ctx.lineTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
+    }
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    document.getElementById('noteForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = document.getElementById('title').value;
+      const content = document.getElementById('content').value;
+      const drawing = canvas.toDataURL();
+
+      const response = await fetch('/notes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ title, content, drawing })
+      });
+
+      const result = await response.json();
+      document.getElementById('result').innerHTML = `<p>Note created! <a href="${result.url}">View Note @ ${result.url}</a></p>`;
+    });
+
+    window.onload = () => {
+      const username = localStorage.getItem('username');
+      if (username) {
+        document.getElementById('welcomeMessage').innerHTML = `<h1>Hello, ${username}! Start by taking today's notes</h1>`;
+        setTimeout(() => {
+          localStorage.removeItem('username');
+          alert('Session expired. Please log in again.');
+          window.location.href = 'login.html';
+        }, 600000); // 600,000 milliseconds = 10 minutes
+      } else {
+        window.location.href = 'login.html';
+      }
+    };
+  </script>
+</body>
+</html>
