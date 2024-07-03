@@ -16,6 +16,10 @@
         }
 
         .card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
             background: #f7f7f7;
             border-radius: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -48,22 +52,223 @@
         .bar {
             background: #bbb;
             height: 20px;
-            margin: 15px 0;
+            margin: 100px 0;
             border-radius: 10px;
         }
+        .wrap-input-8 .input {
+  width: 100%;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+  background-color: 
+#f5f6fd;
+  border: 1px solid 
+#ccc; 
+  padding: 7px 14px 9px; 
+  transition: 0.4s;
+}
+
+.wrap-input-8 .input:focus {
+  outline: none;
+}
+
+.wrap-input-8 {
+  width: 80%;
+  margin: 40px 3%;
+  position: relative;
+}
+
+.wrap-input-8 .input ~ .focus-border:before,
+.wrap-input-8 .input ~ .focus-border:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #f39c12;
+  transition: 0.3s;
+}
+.wrap-input-8 .input ~ .focus-border:after {
+  top: auto;
+  bottom: 0;
+  left: auto;
+  right: 0;
+}
+.wrap-input-8 .input ~ .focus-border i:before,
+.wrap-input-8 .input ~ .focus-border i:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 0;
+  background-color: #f39c12;
+  transition: 0.4s;
+}
+.wrap-input-8 .input ~ .focus-border i:after {
+  left: auto;
+  right: 0;
+  top: auto;
+  bottom: 0;
+}
+.wrap-input-8 .input:focus ~ .focus-border:before,
+.wrap-input-8 .input:focus ~ .focus-border:after {
+  width: 100%;
+  transition: 0.3s;
+}
+.wrap-input-8 .input:focus ~ .focus-border i:before,
+.wrap-input-8 .input:focus ~ .focus-border i:after {
+  height: 100%;
+  transition: 0.4s;
+}
+.btn-81,
+.btn-81 *,
+.btn-81 :after,
+.btn-81 :before,
+.btn-81:after,
+.btn-81:before {
+  border: 0 solid;
+  box-sizing: border-box;
+}
+.btn-81 {
+  -webkit-tap-highlight-color: 
+transparent;
+  -webkit-appearance: button;
+  background-color: 
+#000;
+  background-image: none;
+  color: 
+#fff;
+  cursor: pointer;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
+    Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  font-size: 100%;
+  font-weight: 900;
+  line-height: 1.5;
+  margin: 0;
+  -webkit-mask-image: -webkit-radial-gradient(#000, #fff);
+  padding: 0;
+}
+.btn-81:disabled {
+  cursor: default;
+}
+.btn-81:-moz-focusring {
+  outline: auto;
+}
+.btn-81 svg {
+  display: block;
+  vertical-align: middle;
+}
+.btn-81 [hidden] {
+  display: none;
+}
+.btn-81 {
+  border: 2px solid;
+  border-radius: 999px;
+  box-sizing: border-box;
+  display: block;
+  overflow: hidden;
+  padding: 1.2rem 3rem;
+  position: relative;
+  text-transform: uppercase;
+}
+.btn-81 span {
+  font-weight: 900;
+  mix-blend-mode: difference;
+}
+.btn-81:before {
+  background: 
+#fff;
+  bottom: 0;
+  content: "";
+  left: 0;
+  position: absolute;
+  width: 100%;
+}
+.btn-81:hover:before {
+  -webkit-animation: progress-bar 1.2s;
+  animation: progress-bar 1.2s;
+}
+@-webkit-keyframes progress-bar {
+  0% {
+    height: 0%;
+    opacity: 1;
+  }
+  10% {
+    height: 15%;
+    opacity: 1;
+  }
+  25% {
+    height: 25%;
+    opacity: 1;
+  }
+  40% {
+    height: 35%;
+    opacity: 1;
+  }
+  55% {
+    height: 75%;
+    opacity: 1;
+  }
+  60% {
+    height: 100%;
+    opacity: 1;
+  }
+  to {
+    height: 100%;
+    opacity: 0;
+  }
+}
+@keyframes progress-bar {
+  0% {
+    height: 0%;
+    opacity: 1;
+  }
+  10% {
+    height: 15%;
+    opacity: 1;
+  }
+  25% {
+    height: 25%;
+    opacity: 1;
+  }
+  40% {
+    height: 35%;
+    opacity: 1;
+  }
+  55% {
+    height: 75%;
+    opacity: 1;
+  }
+  60% {
+    height: 100%;
+    opacity: 1;
+  }
+  to {
+    height: 100%;
+    opacity: 0;
+  }
+}
     </style>
 </head>
 <body>
     <div class="card">
         <h1>Login</h1>
   <form id="loginForm">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
-    <br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-    <br>
-    <button type="submit">Login</button>
+    <div class="wrap-input-8">
+        <input class="input" type="text" placeholder="Username">
+          <span class="focus-border">
+            <i></i>
+          </span>
+      </div>
+      <div class="wrap-input-8">
+        <input class="input" type="text" placeholder="Password">
+          <span class="focus-border">
+            <i></i>
+          </span>
+      </div>
+      <button class="btn-81"><span>Login</span></button>
   </form>
   <div id="message"></div>
     </div>
