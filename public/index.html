@@ -37,8 +37,9 @@
     <br>
     <canvas id="canvas" width="1800px" height="600px"></canvas>
     <br>
-    <button type="button" onclick="clearCanvas()">Clear Canvas</button>
+    
     <br>
+    <button id="eraserButton">Eraser</button>
     <button type="submit">Create Note</button>
   </form>
   <div id="result"></div>
@@ -71,6 +72,14 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
+    const eraserButton = document.getElementById('eraserButton');
+        eraserButton.addEventListener('click', () => {
+            canvas.addEventListener('mousemove', useEraser);
+            canvas.addEventListener('mouseup', function() {
+                canvas.removeEventListener('mousemove', useEraser);
+            });
+        });
+
     document.getElementById('noteForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const title = document.getElementById('title').value;
@@ -86,7 +95,7 @@
       });
 
       const result = await response.json();
-      document.getElementById('result').innerHTML = `<p>Note created! View Note @<a href="${result.url}">https://pixel-pad.onrender.com/${result.url}</a></p>`;
+      document.getElementById('result').innerHTML = `<p>Note created! View Note @<a href="${result.url}">${result.url}</a></p>`;
     });
 
     window.onload = () => {
