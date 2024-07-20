@@ -3,7 +3,8 @@ const bodyParser = require('body-parser');
 const shortid = require('shortid');
 const fs = require('fs');
 const path = require('path');
-
+const UserSchema = require('./model/user')
+const mongoose = require('mongoose')
 const app = express();
 const port = 3000;
 
@@ -12,13 +13,34 @@ app.use(express.static('public'));
 
 // In-memory store for notes
 const notes = {};
-const users = [{ username: 'Karthik', password: 'karthik', name: 'Karthik' } ,{username: 'Abhigna', password: 'Abhigna', name: 'Abhigna'},{username: 'Aravind', password: 'Aravind', name: 'Aravind'}];
+const mongoDB = "mongodb+srv://aravind:aravind@cluster0.cwdfop7.mongodb.net/"
+mongoose.connect(mongoDB,
+  { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+    console.log("Connected to Mongo DB")
+  }).catch((err) => {
+    console.log("Error connecting to mongo DB", err)
+  })
 
-app.post('/login', (req, res) => {
+
+
+app.post('/register',async(req,res)=>{
+  const {name,username,password} = req.body;
+  const user = await UserSchema.findOne({username:username})
+  if(user){
+    res.status(403).json({success:false,message:"Already registered with given username"})
+  }
+  const newuser = new UserSchema({Name:name,UserName:username,password:password})
+  newuser.save()
+  res.status(200).json({success:true,message:"User registered successfully"})
+})
+
+app.post('/login', async(req, res) => {
     const { username, password } = req.body;
-    const user = users.find(u => u.username === username && u.password === password);
+    const user = await UserSchema.findOne({UserName:username})
     if (user) {
-      res.json({ success: true, name: user.name });
+      if(user.UserName===username && user.password ===password){
+        res.json({ success: true, name: user.UserName });
+      }
     } else {
       res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
